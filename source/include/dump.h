@@ -1,3 +1,5 @@
+#ifdef DUMP
+
 #ifndef DUMP_H
 #define DUMP_H
 
@@ -18,10 +20,12 @@ const char UNEXPECTED_ERROR[]  = "UNEXPECTED ERROR\n";
 
 struct Stack;
 
-void dump_exit_(const Stack* const stk, ErrType msg,
-                const char func[], const char file[], int line);
+void dump(const Stack* const stk, ErrType err, int detailed, const char msg[],
+          const char func[], const char file[], int line);
 
-void stack_dump_(const Stack* const stk, const char message[],
+void stack_dump_(const Stack* const stk, const char msg[],
                  const char func[], const char file[], int line);
 
 #endif // DUMP_H
+
+#endif // DUMP

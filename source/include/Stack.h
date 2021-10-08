@@ -27,44 +27,88 @@ enum ErrType
     UNEXPCTD_ERR    = 1 << 13, /// ERROR
 };
 
-#ifdef DEBUG
-    #include "dump.h"
-    typedef uint64_t guard_t;
-    const size_t SIZE_POISON = 0x1BADBADBADBADBAD;
-    const Elem_t* const BUF_POISON = (Elem_t*) 0x000000000BAD;
-    const guard_t CANARY = 0xBAC1CAB1DED1BED1;
-#endif // DEBUG
+#ifdef DEBUG //////////////////////////////////////////////////////////////////
+
+#include "dump.h"
+
+typedef uint64_t guard_t;
+const size_t SIZE_POISON = 0x1BADBADBADBADBAD;
+const Elem_t* const BUF_POISON = (Elem_t*) 0x000000000BAD;
+
+#ifdef CANARY
+const guard_t DEFAULT_CANARY = 0xBAC1CAB1DED1BED1;
+#endif // CANARY
 
 struct Stack
 {
-#ifdef DEBUG
+#ifdef CANARY
     guard_t beg_can = 0;
+#endif // CANARY
+#ifdef HASH
     guard_t stk_hash = 0;
-#endif // DEBUG
+#endif // HASH
 
     Elem_t* buffer = nullptr;
 
-    size_t preset_size = 0;
+    size_t preset_cap = 0;
     size_t size = 0;
     size_t capacity = 0;
 
-#ifdef DEBUG
+#ifdef DUMP
     const char* init_func = nullptr;
-    const char* init_file = nullptr;
+    const char* init_file = 0;
     int init_line = 0;
-
+#endif // DUMP
+#ifdef HASH
+#ifdef BUFFER_HASH
     guard_t buf_hash = 0;
+#endif // BUFFER_HASH
+#endif // HASH
+#ifdef CANARY
     guard_t end_can = 0;
-#endif // DEBUG
+#endif // CANARY
 };
 
-ErrType stack_verify_(Stack* stk);
+ErrType stack_verify_(const Stack* const stk);
 
-#ifdef DEBUG
 ErrType stack_init_(Stack* stk, size_t size, const char func[], const char file[], int line);
-#else
+
+ErrType stack_push_(Stack* stk, Elem_t elem, const char func[], const char file[], int line);
+
+ErrType stack_pop_(Stack* stk, Elem_t* elem, const char func[], const char file[], int line);
+
+ErrType stack_dstr_(Stack* stk, const char func[], const char file[], int line);
+
+#ifdef DUMP
+#define stack_dump(stk, msg) stack_dump_((stk), (msg), __PRETTY_FUNCTION__, __FILE__, __LINE__);  
+#else // DUMP
+#define stack_dump(stk, msg)
+#endif // DUMP
+
+#define stack_init(stk, size)                                                \
+        stack_init_((stk), (size), __PRETTY_FUNCTION__, __FILE__, __LINE__); \
+
+#define stack_push(stk, elem)                                                \
+        stack_push_((stk), (elem), __PRETTY_FUNCTION__, __FILE__, __LINE__); \
+
+#define stack_pop(stk, elem)                                                 \
+        stack_pop_((stk), (elem), __PRETTY_FUNCTION__, __FILE__, __LINE__);  \
+
+#define stack_dstr(stk)                                                      \
+        stack_dstr_((stk), __PRETTY_FUNCTION__, __FILE__, __LINE__);         \
+
+#else //////////////////////////////////////////////////////////////////////////
+
+struct Stack
+{
+    Elem_t* buffer = nullptr;
+
+    size_t preset_cap = 0;
+    size_t size = 0;
+    size_t capacity = 0;
+};
+
 ErrType stack_init_(Stack* stk, size_t size);
-#endif // DEBUG
 
 ErrType stack_push_(Stack* stk, Elem_t elem);
 
@@ -72,63 +116,19 @@ ErrType stack_pop_(Stack* stk, Elem_t* elem);
 
 ErrType stack_dstr_(Stack* stk);
 
-#ifdef DEBUG
-    #define stack_dump(stk, msg)                                                 \
-        do                                                                       \
-        {                                                                        \
-            stack_dump_((stk), (msg), __PRETTY_FUNCTION__, __FILE__, __LINE__);  \
-        } while(0)                                                               \
+#define stack_dump(stk, msg)
 
+#define stack_init(stk, size)      \
+        stack_init_((stk), (size))
 
-    #define stack_init(stk, size)                                                \
-        do                                                                       \
-        {                                                                        \
-            ErrType err = stack_init_((stk), (size),                             \
-                                       __PRETTY_FUNCTION__, __FILE__, __LINE__); \
-            if(err)                                                              \
-                dump_exit_((stk), err, __PRETTY_FUNCTION__, __FILE__, __LINE__); \
-        } while(0)
+#define stack_push(stk, elem)      \
+        stack_push_((stk), (elem))
 
+#define stack_pop(stk, elem)       \
+        stack_pop_((stk), (elem))
 
-    #define stack_push(stk, elem)                                                \
-        do                                                                       \
-        {                                                                        \
-            ErrType err = stack_push_((stk), (elem));                            \
-            if(err)                                                              \
-                dump_exit_((stk), err, __PRETTY_FUNCTION__, __FILE__, __LINE__); \
-        } while(0)
+#define stack_dstr(stk)            \
+        stack_dstr_((stk))
 
-
-    #define stack_pop(stk, elem)                                                 \
-        do                                                                       \
-        {                                                                        \
-            ErrType err = stack_pop_((stk), (elem));                             \
-            if(err)                                                              \
-                dump_exit_((stk), err, __PRETTY_FUNCTION__, __FILE__, __LINE__); \
-        } while(0)
-
-
-    #define stack_dstr(stk)                                                      \
-        do                                                                       \
-        {                                                                        \
-            ErrType err = stack_dstr_((stk));                                    \
-            if(err)                                                              \
-                dump_exit_((stk), err, __PRETTY_FUNCTION__, __FILE__, __LINE__); \
-        } while(0)
-#else
-    #define stack_dump(stk, msg)
-
-    #define stack_init(stk, size)      \
-            stack_init_((stk), (size))
-
-    #define stack_push(stk, elem)      \
-            stack_push_((stk), (elem))
-
-    #define stack_pop(stk, elem)       \
-            stack_pop_((stk), (elem))
-
-    #define stack_dstr(stk)            \
-            stack_dstr_((stk))
-#endif // DEBUG
-
+#endif // DEBUG ////////////////////////////////////////////////////////////////
 #endif // STACK_H

@@ -3,11 +3,15 @@
 
 typedef int Elem_t;
 
-const char logfile[] = "log.txt";
+const char LOGFILE[] = "log.txt";
 
 #define ELEM_FORMAT "%d"
 
 #define DEBUG
-//#define EXIT
+#define CANARY
+#define DUMP
+
+#define HASH
+#define BUFFER_HASH
 
 #endif // CONFIG_H
