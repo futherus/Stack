@@ -1,13 +1,19 @@
+/// \file
+
 #ifndef STACK_H
 #define STACK_H
 
 #include <stdint.h>
 #include "config.h"
 
+/// \brief Capacity multiplier for reallocating
 const size_t STACK_CAP_MULTPLR = 2;
+/// \brief Minimal capacity 
 const size_t STACK_MIN_CAP = 4 * STACK_CAP_MULTPLR;
+
 const unsigned char BYTE_POISON = 0xBD;
 
+/// \brief Error enum for reporting errors
 enum ErrType
 {
     NOERR           = 0,       /// no message
@@ -28,6 +34,47 @@ enum ErrType
 };
 
 #ifdef DEBUG //////////////////////////////////////////////////////////////////
+
+/** \brief Verifies an dumps stack to logfile
+ *  \param stk [in] Pointer to stack
+ *  \param msg [in] String message for dump
+ */
+#ifdef DUMP
+#define stack_dump(stk, msg) stack_dump_((stk), (msg), __PRETTY_FUNCTION__, __FILE__, __LINE__);  
+#else // DUMP
+#define stack_dump(stk, msg)
+#endif // DUMP
+
+/** \brief Initializes stack
+ *  \param stk  [in][out] Pointer to stack
+ *  \param size [in]      Initial size for stack (if 0 stack buffer is not allocated)
+ *  \return ErrType::NOERR if succeed and error number otherwise
+ */
+#define stack_init(stk, size)                                                \
+        stack_init_((stk), (size), __PRETTY_FUNCTION__, __FILE__, __LINE__); \
+
+/** \brief Pushes element to stack
+ *  \param stk  [in][out]  Pointer to stack
+ *  \param elem [in]       Element to be pushed
+ *  \return ErrType::NOERR if succeed and error number otherwise
+ */
+#define stack_push(stk, elem)                                                \
+        stack_push_((stk), (elem), __PRETTY_FUNCTION__, __FILE__, __LINE__); \
+
+/** \brief Pops element from stack
+ *  \param stk  [in][out]  Pointer to stack
+ *  \param elem [out]      Pointer to variable to write popped element
+ *  \return ErrType::NOERR if succeed and error number otherwise
+ */
+#define stack_pop(stk, elem)                                                 \
+        stack_pop_((stk), (elem), __PRETTY_FUNCTION__, __FILE__, __LINE__);  \
+
+/** \brief Destoys stack
+ *  \param stk [in][out]   Pointer to stack
+ *  \return ErrType::NOERR if succeed and error number otherwise
+ */
+#define stack_dstr(stk)                                                      \
+        stack_dstr_((stk), __PRETTY_FUNCTION__, __FILE__, __LINE__);         \
 
 #include "dump.h"
 
@@ -78,24 +125,6 @@ ErrType stack_push_(Stack* stk, Elem_t elem, const char func[], const char file[
 ErrType stack_pop_(Stack* stk, Elem_t* elem, const char func[], const char file[], int line);
 
 ErrType stack_dstr_(Stack* stk, const char func[], const char file[], int line);
-
-#ifdef DUMP
-#define stack_dump(stk, msg) stack_dump_((stk), (msg), __PRETTY_FUNCTION__, __FILE__, __LINE__);  
-#else // DUMP
-#define stack_dump(stk, msg)
-#endif // DUMP
-
-#define stack_init(stk, size)                                                \
-        stack_init_((stk), (size), __PRETTY_FUNCTION__, __FILE__, __LINE__); \
-
-#define stack_push(stk, elem)                                                \
-        stack_push_((stk), (elem), __PRETTY_FUNCTION__, __FILE__, __LINE__); \
-
-#define stack_pop(stk, elem)                                                 \
-        stack_pop_((stk), (elem), __PRETTY_FUNCTION__, __FILE__, __LINE__);  \
-
-#define stack_dstr(stk)                                                      \
-        stack_dstr_((stk), __PRETTY_FUNCTION__, __FILE__, __LINE__);         \
 
 #else //////////////////////////////////////////////////////////////////////////
 
