@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Stack: D:/Projects/Stack/source/include/config.h File Reference</title>
+<title>stack: D:/Projects/Stack/source/include/config.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Stack
+   <div id="projectname">stack
    </div>
   </td>
  </tr>
@@ -74,47 +74,54 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>File containing settings of stack protection and dump.  
+<a href="#details">More...</a></p>
+
 <p><a href="config_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a5ad7bafc1eed4c28d141be87e0ced2b4"><td class="memItemLeft" align="right" valign="top"><a id="a5ad7bafc1eed4c28d141be87e0ced2b4" name="a5ad7bafc1eed4c28d141be87e0ced2b4"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>ELEM_FORMAT</b>&#160;&#160;&#160;&quot;%d&quot;</td></tr>
-<tr class="separator:a5ad7bafc1eed4c28d141be87e0ced2b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad72dbcf6d0153db1b8d8a58001feed83"><td class="memItemLeft" align="right" valign="top"><a id="ad72dbcf6d0153db1b8d8a58001feed83" name="ad72dbcf6d0153db1b8d8a58001feed83"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>DEBUG</b></td></tr>
-<tr class="memdesc:ad72dbcf6d0153db1b8d8a58001feed83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on protection for stack. <br /></td></tr>
+<tr class="memdesc:ad72dbcf6d0153db1b8d8a58001feed83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn off protection for stack. <br /></td></tr>
 <tr class="separator:ad72dbcf6d0153db1b8d8a58001feed83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f66c64c3c72034ee0c901bd685bb179"><td class="memItemLeft" align="right" valign="top"><a id="a3f66c64c3c72034ee0c901bd685bb179" name="a3f66c64c3c72034ee0c901bd685bb179"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CANARY</b></td></tr>
-<tr class="memdesc:a3f66c64c3c72034ee0c901bd685bb179"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on canary protection (Doesn't work without DEBUG define) <br /></td></tr>
+<tr class="memdesc:a3f66c64c3c72034ee0c901bd685bb179"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on canary protection (Does not work without DEBUG define) <br /></td></tr>
 <tr class="separator:a3f66c64c3c72034ee0c901bd685bb179"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6809904dd5afab4a63119c00f4b43796"><td class="memItemLeft" align="right" valign="top"><a id="a6809904dd5afab4a63119c00f4b43796" name="a6809904dd5afab4a63119c00f4b43796"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>DUMP</b></td></tr>
-<tr class="memdesc:a6809904dd5afab4a63119c00f4b43796"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on dump (Doesn't work without DEBUG define) <br /></td></tr>
+<tr class="memdesc:a6809904dd5afab4a63119c00f4b43796"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on error dumps and user dumps (Does not work without DEBUG define) <br /></td></tr>
 <tr class="separator:a6809904dd5afab4a63119c00f4b43796"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7172fe24d1ffc31d15b20a77ea9f34dd"><td class="memItemLeft" align="right" valign="top"><a id="a7172fe24d1ffc31d15b20a77ea9f34dd" name="a7172fe24d1ffc31d15b20a77ea9f34dd"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>HASH</b></td></tr>
-<tr class="memdesc:a7172fe24d1ffc31d15b20a77ea9f34dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on hashes (Doesn't work without DEBUG define) <br /></td></tr>
-<tr class="separator:a7172fe24d1ffc31d15b20a77ea9f34dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73b8940865f132092459dd3aedd68dec"><td class="memItemLeft" align="right" valign="top"><a id="a73b8940865f132092459dd3aedd68dec" name="a73b8940865f132092459dd3aedd68dec"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>DUMP_ALL</b></td></tr>
+<tr class="memdesc:a73b8940865f132092459dd3aedd68dec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on all dumps (Does not work without DEBUG and DUMP defines) <br /></td></tr>
+<tr class="separator:a73b8940865f132092459dd3aedd68dec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad85dddaddc41ae298612fd7a8d529bbe"><td class="memItemLeft" align="right" valign="top"><a id="ad85dddaddc41ae298612fd7a8d529bbe" name="ad85dddaddc41ae298612fd7a8d529bbe"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>STACK_HASH</b></td></tr>
+<tr class="memdesc:ad85dddaddc41ae298612fd7a8d529bbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on stack hash (Does not work without DEBUG define) <br /></td></tr>
+<tr class="separator:ad85dddaddc41ae298612fd7a8d529bbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5354e9a07cdd52b0eea68a88a59f74d"><td class="memItemLeft" align="right" valign="top"><a id="aa5354e9a07cdd52b0eea68a88a59f74d" name="aa5354e9a07cdd52b0eea68a88a59f74d"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>BUFFER_HASH</b></td></tr>
-<tr class="memdesc:aa5354e9a07cdd52b0eea68a88a59f74d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on data buffer hash (Doesn't work without HASH and DEBUG defines) <br /></td></tr>
+<tr class="memdesc:aa5354e9a07cdd52b0eea68a88a59f74d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on data buffer hash (Does not work without DEBUG define) <br /></td></tr>
 <tr class="separator:aa5354e9a07cdd52b0eea68a88a59f74d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a080be3bdb852e7fe4ae09e67e3f7012c"><td class="memItemLeft" align="right" valign="top"><a id="a080be3bdb852e7fe4ae09e67e3f7012c" name="a080be3bdb852e7fe4ae09e67e3f7012c"></a>
-typedef int&#160;</td><td class="memItemRight" valign="bottom"><b>Elem_t</b></td></tr>
-<tr class="separator:a080be3bdb852e7fe4ae09e67e3f7012c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe4e8ceb29ffb541f0516d80a7590049"><td class="memItemLeft" align="right" valign="top"><a id="abe4e8ceb29ffb541f0516d80a7590049" name="abe4e8ceb29ffb541f0516d80a7590049"></a>
+typedef size_t&#160;</td><td class="memItemRight" valign="bottom"><b>Elem_t</b></td></tr>
+<tr class="separator:abe4e8ceb29ffb541f0516d80a7590049"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a5c0d702d6d085e8e7662501ade8ef4c6"><td class="memItemLeft" align="right" valign="top"><a id="a5c0d702d6d085e8e7662501ade8ef4c6" name="a5c0d702d6d085e8e7662501ade8ef4c6"></a>
 const char&#160;</td><td class="memItemRight" valign="bottom"><b>LOGFILE</b> [] = &quot;log.txt&quot;</td></tr>
+<tr class="memdesc:a5c0d702d6d085e8e7662501ade8ef4c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Path to file for logs. <br /></td></tr>
 <tr class="separator:a5c0d702d6d085e8e7662501ade8ef4c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >File containing settings of stack protection and dump. </p>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2

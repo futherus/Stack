@@ -1,23 +1,34 @@
-/// \file
-
+/** \file
+ *  \brief File containing settings of stack protection and dump
+ */
 #ifndef CONFIG_H
 #define CONFIG_H
 
-typedef int Elem_t;
+typedef size_t Elem_t;
 
+/// Path to file for logs
 const char LOGFILE[] = "log.txt";
 
-#define ELEM_FORMAT "%d"
-
-/// \brief Turn on protection for stack
+/// \brief Turn off protection for stack
 #define DEBUG
-/// \brief Turn on canary protection (Doesn't work without DEBUG define)
-#define CANARY
-/// \brief Turn on dump (Doesn't work without DEBUG define)
-#define DUMP
-/// \brief Turn on hashes (Doesn't work without DEBUG define)
-#define HASH
-/// \brief Turn on data buffer hash (Doesn't work without HASH and DEBUG defines)
-#define BUFFER_HASH
+
+#ifdef DEBUG
+    /// \brief Turn on canary protection (Does not work without DEBUG define)
+    #define CANARY
+
+    /// \brief Turn on error dumps and user dumps (Does not work without DEBUG define)
+    #define DUMP
+
+    #ifdef DUMP
+        /// \brief Turn on all dumps (Does not work without DEBUG and DUMP defines)
+        #define DUMP_ALL
+    #endif // DUMP
+
+    /// \brief Turn on stack hash (Does not work without DEBUG define)
+    #define STACK_HASH
+    
+    /// \brief Turn on data buffer hash (Does not work without DEBUG define)
+    #define BUFFER_HASH
+#endif
 
 #endif // CONFIG_H

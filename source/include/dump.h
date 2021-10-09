@@ -1,7 +1,18 @@
+/** \file 
+ *  \brief Header for stack dump
+ */
 #ifdef DUMP
 
 #ifndef DUMP_H
 #define DUMP_H
+ 
+#include <stdio.h>
+
+/** \brief Sets printing elements function for dump
+ *  \param stream [in] FILE* pointer
+ *  \param elem   [in] Pointer to elem to be printed
+ */
+void set_print(void (*print_func)(FILE* stream, const Elem_t* elem));
 
 const char BAD_ALLOCATION[]    = "Allocation has failed\n";
 const char BAD_BUFFER[]        = "Buffer is corrupted\n";
@@ -16,11 +27,18 @@ const char SIZE_OVER_CAP[]     = "Size is greater than capacity\n";
 const char CAP_OVER_SIZE[]     = "Capacity is greater than needed for current size\n";
 const char POP_EMPTY_STACK[]   = "Trying to pop from empty stack";
 const char NULLPOINTER[]       = "Nullptr was passed\n";
-const char UNEXPECTED_ERROR[]  = "UNEXPECTED ERROR\n";
 
 struct Stack;
 
-void dump(const Stack* const stk, ErrType err, int detailed, const char msg[],
+enum DumpLevel
+{
+    ONLYERR = 0,
+    BRIEF = 1,
+    DETAILED = 2
+};
+
+
+void dump(const Stack* const stk, ErrType err, DumpLevel level, const char msg[],
           const char func[], const char file[], int line);
 
 void stack_dump_(const Stack* const stk, const char msg[],

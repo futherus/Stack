@@ -15,31 +15,37 @@ static void* recalloc(void* ptr, size_t* nobj, size_t new_nobj, size_t size);
 #define CAP_ (stk->capacity)
 
 #ifdef DEBUG
-
 #ifdef DUMP
-    #include "include/dump.h"
-    #define DO_DUMP dump(stk, (ErrType) err, 0, __func__, func, file, line)
-#else // DUMP
-    #define DO_DUMP ;
+    #ifdef DUMP_ALL
+        #define DO_DUMP dump(stk, (ErrType) err, DumpLevel::BRIEF, __func__, func, file, line)
+    #else
+        #define DO_DUMP dump(stk, (ErrType) err, DumpLevel::ONLYERR, __func__, func, file, line)
+    #endif // DUMP_ALL
+#else
+    #define DO_DUMP 
 #endif // DUMP
 
-#ifdef HASH
     static guard_t calculate_hash(const void* obj, size_t size);
-    static void stack_sethash(Stack* stk);
-    static int stack_checkhash(const Stack* stk);
+
+#ifdef STACK_HASH
     #define STK_HASH_ (stk->stk_hash)
-    #ifdef BUFFER_HASH
-        #define BUF_HASH_ (stk->buf_hash)
-    #endif // BUFFER_HASH
-#endif // HASH
+    static void stack_set_stkhash(Stack* stk);
+    static int stack_check_stkhash(const Stack* stk);
+#endif // STACK_HASH
+
+#ifdef BUFFER_HASH
+    #define BUF_HASH_ (stk->buf_hash)
+    static void stack_set_bufhash(Stack* stk);
+    static int stack_check_bufhash(const Stack* stk);
+#endif // BUFFER_HASH
 
 #ifdef CANARY
     #define BEG_STK_CAN_ (stk->beg_can)
     #define END_STK_CAN_ (stk->end_can)
     #define BEG_BUF_CAN_ (*(((guard_t*) BUF_) - 1))
     #define END_BUF_CAN_ (*((guard_t*) (BUF_ + CAP_)))
-    static void stack_setcans(Stack* stk);
-    static int stack_checkcans(const Stack* stk);
+    static void stack_set_cans(Stack* stk);
+    static int stack_check_cans(const Stack* stk);
 #endif // CANARY
 
 ErrType stack_verify_(const Stack* const stk)
@@ -49,7 +55,7 @@ ErrType stack_verify_(const Stack* const stk)
     if(!stk)
     {
         err |= ErrType::NULLPTR;
-        return ErrType (err);
+        return (ErrType) err;
     }
 
     if(SZ_ > CAP_)
@@ -67,20 +73,20 @@ ErrType stack_verify_(const Stack* const stk)
         return (ErrType) err;
     }
 
-#ifdef CANARY
-    err |= stack_checkcans(stk);
-#endif // CANARY
-#ifdef HASH
-    err |= stack_checkhash(stk);
-#endif // HASH
+    enable_canary(err |= stack_check_cans(stk);)
+    enable_stkhash(err |= stack_check_stkhash(stk);)
+    enable_bufhash(err |= stack_check_bufhash(stk);)
 
     return (ErrType) err;
 }
+#endif // DEBUG
 
-ErrType stack_init_(Stack* stk, size_t preset_cap, const char func[], const char file[], int line)
+ErrType stack_init_(Stack* stk, size_t preset_cap 
+        enable_dump(const char func[], const char file[], int line))
 {
-    int err = 0;
+    int err = ErrType::NOERR;
 
+#ifdef DEBUG
     if(!stk)
     {
         err |= ErrType::NULLPTR;
@@ -109,6 +115,7 @@ ErrType stack_init_(Stack* stk, size_t preset_cap, const char func[], const char
         return (ErrType) err;
     }
 #endif // HASH
+#endif // DEBUG
 
     if(preset_cap)
     {
@@ -123,77 +130,89 @@ ErrType stack_init_(Stack* stk, size_t preset_cap, const char func[], const char
         PRESET_CAP_ = preset_cap;
     }
 
+#ifdef DEBUG
 #ifdef DUMP
     stk->init_func = func;
     stk->init_file = file;
     stk->init_line = line;
 #endif // DUMP
 
-#ifdef HASH
-    stack_sethash(stk);
-#endif // HASH
+    enable_stkhash(stack_set_stkhash(stk);)
+    enable_bufhash(stack_set_bufhash(stk);)
 
-#ifdef CANARY
-    stack_setcans(stk);
-#endif // CANARY
+    enable_canary(stack_set_cans(stk);)
 
     err |= stack_verify_(stk);
     DO_DUMP;
-    
+#endif // DEBUG
+
     return (ErrType) err;
 }
 
-ErrType stack_push_(Stack* stk, Elem_t elem, const char func[], const char file[], int line)
+ErrType stack_push_(Stack* stk, Elem_t elem
+        enable_dump(const char func[], const char file[], int line))
 {
-    ErrType err = stack_verify_(stk);
+    int err = ErrType::NOERR;
+
+#ifdef DEBUG
+    err = stack_verify_(stk);
     if(err)
     {
         DO_DUMP;
-        return err;
+        return (ErrType) err;
     }
+#endif // DEBUG
 
     if(CAP_ == SZ_)
         if(stack_resize(stk, CAP_ * STACK_CAP_MULTPLR) != 0)
         {
             err = ErrType::BAD_ALLOC;
             DO_DUMP;
-            return err;
+            return (ErrType) err;
         }
 
     BUF_[SZ_++] = elem;
 
-#ifdef HASH
-    stack_sethash(stk);
-#endif // HASH
+#ifdef DEBUG
+    enable_stkhash(stack_set_stkhash(stk);)
+    enable_bufhash(stack_set_bufhash(stk);)
 
     err = stack_verify_(stk);
     DO_DUMP;
-    return err;
+#endif // DEBUG
+
+    return (ErrType) err;
 }
 
-ErrType stack_pop_(Stack* stk, Elem_t* elem, const char func[], const char file[], int line)
+ErrType stack_pop_(Stack* stk, Elem_t* elem
+        enable_dump(const char func[], const char file[], int line))
 {
-    ErrType err = stack_verify_(stk);
+    int err = ErrType::NOERR;
+#ifdef DEBUG
+    err = stack_verify_(stk);
     if(err)
     {
         DO_DUMP;
-        return err;
+        return (ErrType) err;
     }
 
     if(!elem)
     {
+        err |= ErrType::NULLPTR;
         DO_DUMP;
-        return ErrType::NULLPTR;
+        return (ErrType) err;
     }
-
+#endif // DEBUG
+    
     if(SZ_ == 0)
     {
         DO_DUMP;
-        return ErrType::POP_EMPT_STCK;
+        return ErrType::POP_EMPT_STK;
     }
 
     *elem = BUF_[--SZ_];
 
+#ifdef DEBUG
     memset(&BUF_[SZ_], BYTE_POISON, sizeof(Elem_t));
 
     if(SZ_ * STACK_CAP_MULTPLR * STACK_CAP_MULTPLR <= CAP_)
@@ -201,43 +220,41 @@ ErrType stack_pop_(Stack* stk, Elem_t* elem, const char func[], const char file[
         {
             err = ErrType::BAD_ALLOC;
             DO_DUMP;
-            return err;
+            return (ErrType) err;
         }
 
-#ifdef HASH
-    stack_sethash(stk);
-#endif // HASH
+    enable_bufhash(stack_set_bufhash(stk);)
+    enable_stkhash(stack_set_stkhash(stk);)
 
     err = stack_verify_(stk);
     DO_DUMP;
-    return err;
+#endif // DEBUG
+
+    return (ErrType) err;
 }
 
-ErrType stack_dstr_(Stack* stk, const char func[], const char file[], int line)
+ErrType stack_dstr_(Stack* stk
+        enable_dump(const char func[], const char file[], int line))
 {
-    ErrType err = stack_verify_(stk);
+#ifdef DEBUG
+    int err = stack_verify_(stk);
     
     if(BUF_ == BUF_POISON)
     {
         err = ErrType::REDESTR;
         DO_DUMP;
-        return err;
+        return (ErrType) err;
     }
 
     CAP_ = SIZE_POISON;
     SZ_  = SIZE_POISON;
+    PRESET_CAP_ = SIZE_POISON;
     
-#ifdef HASH
-    STK_HASH_ = SIZE_POISON;
-#ifdef BUFFER_HASH
-    BUF_HASH_ = SIZE_POISON;
-#endif // BUFFER_HASH
-#endif // HASH
+    enable_stkhash(STK_HASH_ = SIZE_POISON;)
+    enable_bufhash(BUF_HASH_ = SIZE_POISON;)
 
-#ifdef CANARY
-    BEG_STK_CAN_  = (guard_t) SIZE_POISON;
-    END_STK_CAN_  = (guard_t) SIZE_POISON;
-#endif // CANARY
+    enable_canary(BEG_STK_CAN_ = (guard_t) SIZE_POISON;)
+    enable_canary(END_STK_CAN_ = (guard_t) SIZE_POISON;)
 
 #ifdef DUMP
     stk->init_file = nullptr;
@@ -247,9 +264,7 @@ ErrType stack_dstr_(Stack* stk, const char func[], const char file[], int line)
 
     if(BUF_)
     {
-#ifdef CANARY
-        BUF_ = (Elem_t*) &BEG_BUF_CAN_;
-#endif // CANARY
+        enable_canary(BUF_ = (Elem_t*) &BEG_BUF_CAN_;)
 
         free(BUF_);
     }
@@ -258,6 +273,11 @@ ErrType stack_dstr_(Stack* stk, const char func[], const char file[], int line)
 
     DO_DUMP;
     return ErrType::NOERR;
+#else 
+    free(BUF_);
+
+    return ErrType::NOERR;
+#endif // DEBUG
 }
 
 static int stack_resize(Stack* stk, size_t new_capacity)
@@ -292,8 +312,9 @@ static int stack_resize(Stack* stk, size_t new_capacity)
     CAP_ = byte_cap;
     BUF_ = (Elem_t*) temp_buffer;
 
-    stack_setcans(stk);
-#else // CANARY
+    stack_set_cans(stk);
+    
+#else
     Elem_t* temp_buffer = (Elem_t*) recalloc(BUF_, &CAP_, new_capacity, sizeof(Elem_t));
 
     if(temp_buffer == nullptr)
@@ -305,7 +326,7 @@ static int stack_resize(Stack* stk, size_t new_capacity)
     return 0;
 }
 
-#ifdef HASH
+#ifdef DEBUG
 static guard_t calculate_hash(const void* obj, size_t size)
 {
     guard_t hash = 1;
@@ -325,36 +346,48 @@ static guard_t calculate_hash(const void* obj, size_t size)
     return hash;
 }
 
-static void stack_sethash(Stack* stk)
+#ifdef STACK_HASH
+static void stack_set_stkhash(Stack* stk)
 {
-#ifdef BUFFER_HASH
-    BUF_HASH_ = calculate_hash(BUF_, CAP_ * sizeof(Elem_t));
-#endif // BUFFER_HASH
-
+    assert(stk);
+    
     STK_HASH_ = calculate_hash(((char*) stk) + 2 * sizeof(guard_t), sizeof(Stack) - 4 * sizeof(guard_t));
 }
 
-static int stack_checkhash(const Stack* stk)
+static int stack_check_stkhash(const Stack* stk)
 {
     assert(stk);
 
-    int err = 0;
-
     if(STK_HASH_ != calculate_hash(((const char*) stk) + 2 * sizeof(guard_t), sizeof(Stack) - 4 * sizeof(guard_t)))
-        err |= ErrType::BAD_STK_HSH;
+        return ErrType::BAD_STK_HSH;
 
+    return ErrType::NOERR;
+}
+#endif // STACK_HASH
+
+    
 #ifdef BUFFER_HASH
+static void stack_set_bufhash(Stack* stk)
+{
+    assert(stk);
+
+    BUF_HASH_ = calculate_hash(BUF_, CAP_ * sizeof(Elem_t));
+}
+
+static int stack_check_bufhash(const Stack* stk)
+{
+    assert(stk);
+
     if(BUF_)
         if(BUF_HASH_ != calculate_hash(BUF_, CAP_ * sizeof(Elem_t)))
-            err |= ErrType::BAD_BUF_HSH;
+            return ErrType::BAD_BUF_HSH;
+
+    return ErrType::NOERR;
+}
 #endif // BUFFER_HASH
 
-    return err;
-}
-#endif // HASH
-
 #ifdef CANARY
-static void stack_setcans(Stack* stk)
+static void stack_set_cans(Stack* stk)
 {
     assert(stk);
 
@@ -368,7 +401,7 @@ static void stack_setcans(Stack* stk)
     }
 }
 
-static int stack_checkcans(const Stack* stk)
+static int stack_check_cans(const Stack* stk)
 {
     assert(stk);
 
@@ -384,84 +417,7 @@ static int stack_checkcans(const Stack* stk)
     return err;
 }
 #endif // CANARY
-
-#undef BUF_HASH_
-#undef STK_HASH_
-#undef BEG_STK_CAN_
-#undef END_STK_CAN_
-#undef BEG_BUF_CAN_
-#undef END_BUF_CAN_
-
-#else // DEBUG /////////////////////////////////////////////////////////////////
-
-ErrType stack_init_(Stack* stk, size_t size)
-{
-    if(size)
-    {
-        size = stack_init_cap(size);
-
-        if(stack_resize(stk, size) != 0)
-            return ErrType::BAD_ALLOC;
-
-        PRESET_CAP_ = size;
-    }
-
-    return ErrType::NOERR;
-}
-
-ErrType stack_push_(Stack* stk, Elem_t elem)
-{
-    if(CAP_ == SZ_)
-        if(stack_resize(stk, CAP_ * STACK_CAP_MULTPLR) != 0)
-            return ErrType::BAD_ALLOC;
-
-    BUF_[SZ_++] = elem;
-
-    return ErrType::NOERR;
-}
-
-ErrType stack_pop_(Stack* stk, Elem_t* elem)
-{
-    if(SZ_ == 0)
-        return ErrType::POP_EMPT_STCK;
-
-    *elem = BUF_[--SZ_];
-
-    if(SZ_ * STACK_CAP_MULTPLR * STACK_CAP_MULTPLR <= CAP_)
-        if(stack_resize(stk, CAP_ / STACK_CAP_MULTPLR) != 0)
-            return ErrType::BAD_ALLOC;
-
-    return ErrType::NOERR;
-}
-
-ErrType stack_dstr_(Stack* stk)
-{
-    free(BUF_);
-    return ErrType::NOERR;
-}
-
-static int stack_resize(Stack* stk, size_t new_capacity)
-{
-    assert(stk);
-
-    if(new_capacity < STACK_MIN_CAP)
-        new_capacity = STACK_MIN_CAP;
-    if(new_capacity < PRESET_CAP_)
-        new_capacity = PRESET_CAP_;
-    if(new_capacity == CAP_)
-        return 0;
-
-    Elem_t* temp_buffer = (Elem_t*) recalloc(BUF_, &CAP_, new_capacity, sizeof(Elem_t));
-
-    if(temp_buffer == nullptr)
-        return -1;
-
-    BUF_ = temp_buffer;
-
-    return 0;
-}
-
-#endif // DEBUG ////////////////////////////////////////////////////////////////
+#endif // DEBUG
 
 static size_t stack_init_cap(size_t capacity)
 {
@@ -490,7 +446,16 @@ static void* recalloc(void* ptr, size_t* nobj, size_t new_nobj, size_t size)
     return new_ptr;
 }
 
-#undef BUF_
-#undef SZ_
-#undef CAP_
-#undef PRESET_CAP_
+#ifdef BUF_HASH_
+    #undef BUF_HASH_
+#endif // BUF_HASH_
+#ifdef STK_HASH_
+    #undef STK_HASH_
+#endif // STK_HASH_
+
+#ifdef CANARY
+    #undef BEG_STK_CAN_
+    #undef END_STK_CAN_
+    #undef BEG_BUF_CAN_
+    #undef END_BUF_CAN_
+#endif // CANARY
