@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>stack: D:/Projects/stack/source/include/Stack.h Source File</title>
+<title>stack: Stack.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -46,6 +46,7 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -60,11 +61,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_ab51a11a65415835ab0b627ec1ba1885.html">stack</a></li><li class="navelem"><a class="el" href="dir_61ae1dcbd76550e9ca429603e24642fb.html">source</a></li><li class="navelem"><a class="el" href="dir_8bdbc3b13aaab7746e793d574b4ebd00.html">include</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle"><div class="title">Stack.h</div></div>
 </div><!--header-->
@@ -154,36 +150,36 @@ $(function() {
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="preprocessor">        stack_push_((stk), (elem)                                            \</span></div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="preprocessor">                         DUMP_ON(__PRETTY_FUNCTION__, __FILE__, __LINE__))   \</span></div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="preprocessor"></span> </div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno"><a class="line" href="_stack_8h.html#a4ba5d15048161dd231ffa696725f4040">  122</a></span><span class="preprocessor">#define stack_pop(stk, elem)                                                 \</span></div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span><span class="preprocessor">        stack_pop_((stk), (elem)                                             \</span></div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="preprocessor">                        DUMP_ON(__PRETTY_FUNCTION__, __FILE__, __LINE__))    \</span></div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="preprocessor"></span> </div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="_stack_8h.html#a8e6fa3f47ef95a567a715f542000cd1d">  133</a></span><span class="preprocessor">#define stack_dstr(stk)                                                      \</span></div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span><span class="preprocessor">        stack_dstr_((stk)                                                    \</span></div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span><span class="preprocessor">                 DUMP_ON(__PRETTY_FUNCTION__, __FILE__, __LINE__))           \</span></div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span><span class="preprocessor"></span> </div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="preprocessor">#ifdef DUMP</span></div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span><span class="preprocessor">    #define DUMP_ON(arg1, arg2, arg3) , arg1, arg2, arg3</span></div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span><span class="preprocessor">    #define DUMP_ON(arg1, arg2, arg3) </span></div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><a class="code hl_enumeration" href="_stack_8h.html#a1c2a096ca8decc5b1802b409676b28db">Stack_err</a> stack_verify_(<span class="keyword">const</span> <a class="code hl_struct" href="struct_stack.html">Stack</a>* <span class="keyword">const</span> stk);</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span> </div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><a class="code hl_enumeration" href="_stack_8h.html#a1c2a096ca8decc5b1802b409676b28db">Stack_err</a> stack_init_(<a class="code hl_struct" href="struct_stack.html">Stack</a>* stk, <span class="keywordtype">size_t</span> preset_cap</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="_stack_8h.html#a4ba5d15048161dd231ffa696725f4040">  120</a></span><span class="preprocessor">#define stack_pop(stk, elem)                                                 \</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span><span class="preprocessor">        stack_pop_((stk), (elem)                                             \</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span><span class="preprocessor">                        DUMP_ON(__PRETTY_FUNCTION__, __FILE__, __LINE__))    \</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span><span class="preprocessor"></span> </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno"><a class="line" href="_stack_8h.html#a8e6fa3f47ef95a567a715f542000cd1d">  131</a></span><span class="preprocessor">#define stack_dstr(stk)                                                      \</span></div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="preprocessor">        stack_dstr_((stk)                                                    \</span></div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="preprocessor">                 DUMP_ON(__PRETTY_FUNCTION__, __FILE__, __LINE__))           \</span></div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span><span class="preprocessor"></span> </div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span><span class="preprocessor">#ifdef DUMP</span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span><span class="preprocessor">    #define DUMP_ON(arg1, arg2, arg3) , arg1, arg2, arg3</span></div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span><span class="preprocessor">    #define DUMP_ON(arg1, arg2, arg3) </span></div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno"><a class="line" href="_stack_8h.html#a8fc4dcc2eab7917111310d52663be2b9">  144</a></span><a class="code hl_enumeration" href="_stack_8h.html#a1c2a096ca8decc5b1802b409676b28db">Stack_err</a> <a class="code hl_function" href="_stack_8h.html#a8fc4dcc2eab7917111310d52663be2b9">stack_verify_</a>(<span class="keyword">const</span> <a class="code hl_struct" href="struct_stack.html">Stack</a>* <span class="keyword">const</span> stk);</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno"><a class="line" href="_stack_8h.html#afd1174ad48e9331df6f37098f4313923">  147</a></span><a class="code hl_enumeration" href="_stack_8h.html#a1c2a096ca8decc5b1802b409676b28db">Stack_err</a> <a class="code hl_function" href="_stack_8h.html#afd1174ad48e9331df6f37098f4313923">stack_init_</a>(<a class="code hl_struct" href="struct_stack.html">Stack</a>* stk, <span class="keywordtype">size_t</span> preset_cap</div>
 <div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>              DUMP_ON(<span class="keyword">const</span> <span class="keywordtype">char</span> func[], <span class="keyword">const</span> <span class="keywordtype">char</span> file[], <span class="keywordtype">int</span> line));</div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><a class="code hl_enumeration" href="_stack_8h.html#a1c2a096ca8decc5b1802b409676b28db">Stack_err</a> stack_push_(<a class="code hl_struct" href="struct_stack.html">Stack</a>* stk, Elem_t elem</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>              DUMP_ON(<span class="keyword">const</span> <span class="keywordtype">char</span> func[], <span class="keyword">const</span> <span class="keywordtype">char</span> file[], <span class="keywordtype">int</span> line));</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><a class="code hl_enumeration" href="_stack_8h.html#a1c2a096ca8decc5b1802b409676b28db">Stack_err</a> stack_pop_ (<a class="code hl_struct" href="struct_stack.html">Stack</a>* stk, Elem_t* elem</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>              DUMP_ON(<span class="keyword">const</span> <span class="keywordtype">char</span> func[], <span class="keyword">const</span> <span class="keywordtype">char</span> file[], <span class="keywordtype">int</span> line));</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><a class="code hl_enumeration" href="_stack_8h.html#a1c2a096ca8decc5b1802b409676b28db">Stack_err</a> stack_dstr_(<a class="code hl_struct" href="struct_stack.html">Stack</a>* stk</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>              DUMP_ON(<span class="keyword">const</span> <span class="keywordtype">char</span> func[], <span class="keyword">const</span> <span class="keywordtype">char</span> file[], <span class="keywordtype">int</span> line));</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="preprocessor">#endif </span><span class="comment">// STACK_H</span></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno"><a class="line" href="_stack_8h.html#a299a99a14ab56fd94adce4fffdeacf68">  151</a></span><a class="code hl_enumeration" href="_stack_8h.html#a1c2a096ca8decc5b1802b409676b28db">Stack_err</a> <a class="code hl_function" href="_stack_8h.html#a299a99a14ab56fd94adce4fffdeacf68">stack_push_</a>(<a class="code hl_struct" href="struct_stack.html">Stack</a>* stk, Elem_t elem</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>              DUMP_ON(<span class="keyword">const</span> <span class="keywordtype">char</span> func[], <span class="keyword">const</span> <span class="keywordtype">char</span> file[], <span class="keywordtype">int</span> line));</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno"><a class="line" href="_stack_8h.html#a6089ff2cf24518689ca0de2b303c376e">  155</a></span><a class="code hl_enumeration" href="_stack_8h.html#a1c2a096ca8decc5b1802b409676b28db">Stack_err</a> <a class="code hl_function" href="_stack_8h.html#a6089ff2cf24518689ca0de2b303c376e">stack_pop_</a> (<a class="code hl_struct" href="struct_stack.html">Stack</a>* stk, Elem_t* elem</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>              DUMP_ON(<span class="keyword">const</span> <span class="keywordtype">char</span> func[], <span class="keyword">const</span> <span class="keywordtype">char</span> file[], <span class="keywordtype">int</span> line));</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno"><a class="line" href="_stack_8h.html#ac99fde403c662c32c7eb251b93778655">  159</a></span><a class="code hl_enumeration" href="_stack_8h.html#a1c2a096ca8decc5b1802b409676b28db">Stack_err</a> <a class="code hl_function" href="_stack_8h.html#ac99fde403c662c32c7eb251b93778655">stack_dstr_</a>(<a class="code hl_struct" href="struct_stack.html">Stack</a>* stk</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>              DUMP_ON(<span class="keyword">const</span> <span class="keywordtype">char</span> func[], <span class="keyword">const</span> <span class="keywordtype">char</span> file[], <span class="keywordtype">int</span> line));</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span><span class="preprocessor">#endif </span><span class="comment">// STACK_H</span></div>
 <div class="ttc" id="a_stack_8h_html_a1c2a096ca8decc5b1802b409676b28db"><div class="ttname"><a href="_stack_8h.html#a1c2a096ca8decc5b1802b409676b28db">Stack_err</a></div><div class="ttdeci">Stack_err</div><div class="ttdoc">Error enum for reporting errors.</div><div class="ttdef"><b>Definition:</b> Stack.h:10</div></div>
 <div class="ttc" id="a_stack_8h_html_a1c2a096ca8decc5b1802b409676b28dba0ba84db20c225170b54b097c61cc7b7f"><div class="ttname"><a href="_stack_8h.html#a1c2a096ca8decc5b1802b409676b28dba0ba84db20c225170b54b097c61cc7b7f">BAD_STK_HSH</a></div><div class="ttdeci">@ BAD_STK_HSH</div><div class="ttdoc">invalid buffer</div><div class="ttdef"><b>Definition:</b> Stack.h:14</div></div>
 <div class="ttc" id="a_stack_8h_html_a1c2a096ca8decc5b1802b409676b28dba3475f53fc319198e49ed63764209f09a"><div class="ttname"><a href="_stack_8h.html#a1c2a096ca8decc5b1802b409676b28dba3475f53fc319198e49ed63764209f09a">NULLPTR</a></div><div class="ttdeci">@ NULLPTR</div><div class="ttdoc">pop from empty stack (WARNING: is not shown in dump)</div><div class="ttdef"><b>Definition:</b> Stack.h:24</div></div>
@@ -198,8 +194,13 @@ $(function() {
 <div class="ttc" id="a_stack_8h_html_a1c2a096ca8decc5b1802b409676b28dbab037eb9ab927ec0560592df0d2fe6a35"><div class="ttname"><a href="_stack_8h.html#a1c2a096ca8decc5b1802b409676b28dbab037eb9ab927ec0560592df0d2fe6a35">BAD_BUF</a></div><div class="ttdeci">@ BAD_BUF</div><div class="ttdoc">error with allocating</div><div class="ttdef"><b>Definition:</b> Stack.h:13</div></div>
 <div class="ttc" id="a_stack_8h_html_a1c2a096ca8decc5b1802b409676b28dbab91fa2c97ed1ba49a918a30db6d39072"><div class="ttname"><a href="_stack_8h.html#a1c2a096ca8decc5b1802b409676b28dbab91fa2c97ed1ba49a918a30db6d39072">REDESTR</a></div><div class="ttdeci">@ REDESTR</div><div class="ttdoc">reinitialization</div><div class="ttdef"><b>Definition:</b> Stack.h:19</div></div>
 <div class="ttc" id="a_stack_8h_html_a1c2a096ca8decc5b1802b409676b28dbaedc508e95debf345b68e1407a7ebd380"><div class="ttname"><a href="_stack_8h.html#a1c2a096ca8decc5b1802b409676b28dbaedc508e95debf345b68e1407a7ebd380">BAD_BUF_CAN</a></div><div class="ttdeci">@ BAD_BUF_CAN</div><div class="ttdoc">bad stack canary (stack is corrupted)</div><div class="ttdef"><b>Definition:</b> Stack.h:17</div></div>
+<div class="ttc" id="a_stack_8h_html_a299a99a14ab56fd94adce4fffdeacf68"><div class="ttname"><a href="_stack_8h.html#a299a99a14ab56fd94adce4fffdeacf68">stack_push_</a></div><div class="ttdeci">Stack_err stack_push_(Stack *stk, Elem_t elem DUMP_ON(const char func[], const char file[], int line))</div></div>
 <div class="ttc" id="a_stack_8h_html_a54ab8e7809f770afe2442ce9687d4169"><div class="ttname"><a href="_stack_8h.html#a54ab8e7809f770afe2442ce9687d4169">STACK_MIN_CAP</a></div><div class="ttdeci">const size_t STACK_MIN_CAP</div><div class="ttdoc">Minimal capacity.</div><div class="ttdef"><b>Definition:</b> Stack.h:34</div></div>
+<div class="ttc" id="a_stack_8h_html_a6089ff2cf24518689ca0de2b303c376e"><div class="ttname"><a href="_stack_8h.html#a6089ff2cf24518689ca0de2b303c376e">stack_pop_</a></div><div class="ttdeci">Stack_err stack_pop_(Stack *stk, Elem_t *elem DUMP_ON(const char func[], const char file[], int line))</div></div>
+<div class="ttc" id="a_stack_8h_html_a8fc4dcc2eab7917111310d52663be2b9"><div class="ttname"><a href="_stack_8h.html#a8fc4dcc2eab7917111310d52663be2b9">stack_verify_</a></div><div class="ttdeci">Stack_err stack_verify_(const Stack *const stk)</div></div>
 <div class="ttc" id="a_stack_8h_html_ab3c794f7ae50f3e2c1e6a876e2bd0205"><div class="ttname"><a href="_stack_8h.html#ab3c794f7ae50f3e2c1e6a876e2bd0205">STACK_CAP_MULTPLR</a></div><div class="ttdeci">const size_t STACK_CAP_MULTPLR</div><div class="ttdoc">Capacity multiplier for reallocating.</div><div class="ttdef"><b>Definition:</b> Stack.h:32</div></div>
+<div class="ttc" id="a_stack_8h_html_ac99fde403c662c32c7eb251b93778655"><div class="ttname"><a href="_stack_8h.html#ac99fde403c662c32c7eb251b93778655">stack_dstr_</a></div><div class="ttdeci">Stack_err stack_dstr_(Stack *stk DUMP_ON(const char func[], const char file[], int line))</div></div>
+<div class="ttc" id="a_stack_8h_html_afd1174ad48e9331df6f37098f4313923"><div class="ttname"><a href="_stack_8h.html#afd1174ad48e9331df6f37098f4313923">stack_init_</a></div><div class="ttdeci">Stack_err stack_init_(Stack *stk, size_t preset_cap DUMP_ON(const char func[], const char file[], int line))</div></div>
 <div class="ttc" id="aconfig_8h_html"><div class="ttname"><a href="config_8h.html">config.h</a></div><div class="ttdoc">File containing settings of stack protection and dump.</div></div>
 <div class="ttc" id="adump_8h_html"><div class="ttname"><a href="dump_8h.html">dump.h</a></div><div class="ttdoc">Header for stack dump.</div></div>
 <div class="ttc" id="astruct_stack_html"><div class="ttname"><a href="struct_stack.html">Stack</a></div><div class="ttdef"><b>Definition:</b> Stack.h:49</div></div>
