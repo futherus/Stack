@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['logfile_0',['LOGFILE',['../config_8h.html#a5c0d702d6d085e8e7662501ade8ef4c6',1,'config.h']]]
+  ['nullptr_0',['NULLPTR',['../_stack_8h.html#a1c2a096ca8decc5b1802b409676b28dba3475f53fc319198e49ed63764209f09a',1,'Stack.h']]]
 ];

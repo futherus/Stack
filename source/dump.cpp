@@ -1,23 +1,25 @@
-#include "include/Stack.h"
+#include "include/config.h"
 
 #ifdef DUMP
 
+#include "include/Stack.h"
 #include <string.h>
 #include <assert.h>
 #include <stdio.h>
 
 static void (*PRINT_ELEM)(FILE*, const Elem_t*) = nullptr;
 
-void set_print(void (*print_func)(FILE*, const Elem_t*))
+void stack_dump_set_print(void (*print_func)(FILE*, const Elem_t*))
 {
     PRINT_ELEM = print_func;
 }
 
-size_t ERR_MSG_SZ = 8192;
+//WARNING: not checked against overflow
+const size_t ERR_MSG_SZ = 8192;
 
-static void set_message(char err_msg[], ErrType err)
+static void set_message_(char err_msg[], Stack_err err)
 {
-    if(err == ErrType::NOERR)
+    if(err == Stack_err::NOERR)
         return;
 
     err_msg[0] = '\0';
@@ -63,15 +65,15 @@ static void set_message(char err_msg[], ErrType err)
 #endif // BUFFER_HASH
 
 #ifdef CANARY
-#define BEG_STK_CAN_ (stk->beg_can)
-#define END_STK_CAN_ (stk->end_can)
-#define BEG_BUF_CAN_ (*(((guard_t*) BUF_) - 1))
-#define END_BUF_CAN_ (*((guard_t*) (BUF_ + CAP_)))
+    #define BEG_STK_CAN_ (stk->beg_can)
+    #define END_STK_CAN_ (stk->end_can)
+    #define BEG_BUF_CAN_ (*(((guard_t*) BUF_) - 1))
+    #define END_BUF_CAN_ (*((guard_t*) (BUF_ + CAP_)))
 #endif // CANARY
 
-static void close_logfile();
+static void close_logfile_();
 
-static FILE* open_logfile(const char logfile[])  ///remove bufferization
+static FILE* open_logfile_(const char logfile[])  ///remove bufferization
 {
     static int first_call = 1;
     static FILE* logstream = stderr;
@@ -83,35 +85,36 @@ static FILE* open_logfile(const char logfile[])  ///remove bufferization
 
         if(!logstream)
         {
-            fprintf(stderr, "Can't open log file\n");
+            perror("Can't open log file\n");
 
             logstream = stderr;
         }
 
-        atexit(&close_logfile);
+        atexit(&close_logfile_);
     }
 
     return logstream;
 }
 
-static void close_logfile()
+static void close_logfile_()
 {
-    FILE* temp_stream = open_logfile(LOGFILE);
+    FILE* temp_stream = open_logfile_(LOGFILE);
 
     if(temp_stream != stderr)
-        fclose(temp_stream);
+        if(fclose(temp_stream) != 0)
+            perror("Stack log file can't be succesfully closed");
 }
 
-void dump(const Stack* const stk,  ErrType err, DumpLevel level, const char msg[],
+void dump_(const Stack* const stk,  Stack_err err, Stack_dump_lvl level, const char msg[],
           const char func[], const char file[], int line)
 {
     if(err)
-        level = DumpLevel::DETAILED;
+        level = Stack_dump_lvl::DETAILED;
     
-    if(level == DumpLevel::ONLYERR)
+    if(level == Stack_dump_lvl::ONLYERR)
         return;
 
-    FILE* logstream = open_logfile(LOGFILE);
+    FILE* logstream = open_logfile_(LOGFILE);
     
     if(msg[0])
     {
@@ -123,18 +126,18 @@ void dump(const Stack* const stk,  ErrType err, DumpLevel level, const char msg[
     if(err)
     {
         char err_msg[ERR_MSG_SZ];
-        set_message(err_msg, err);
+        set_message_(err_msg, err);
 
         fprintf(logstream, "ERROR (code %.4x)\n", err);
         
-        fprintf(logstream, err_msg);
+        fprintf(logstream, "%s", err_msg);
     }
     else 
     {
         fprintf(logstream, "ok\n");
     }
 
-    if(level == DumpLevel::DETAILED)
+    if(level == Stack_dump_lvl::DETAILED)
     {
         fprintf(logstream, "    called from: %s at %s (%d)\n", func, file, line);
 
@@ -154,7 +157,7 @@ void dump(const Stack* const stk,  ErrType err, DumpLevel level, const char msg[
 
             fprintf(logstream, "    Guards:\n");
 
-        #ifdef CANARY
+#ifdef CANARY
             fprintf(logstream, "     stack  begin = %p\n", BEG_STK_CAN_);
             fprintf(logstream, "     stack  end   = %p\n", END_STK_CAN_);
 
@@ -163,16 +166,20 @@ void dump(const Stack* const stk,  ErrType err, DumpLevel level, const char msg[
                 fprintf(logstream, "     buffer begin = %p\n", BEG_BUF_CAN_);
                 fprintf(logstream, "     buffer end   = %p\n", END_BUF_CAN_);
             }
-        #endif // CANARY
+#endif
 
-            enable_stkhash(fprintf(logstream, "     stack  hash  = %p\n", STK_HASH_);)
-            enable_bufhash(fprintf(logstream, "     buffer hash  = %p\n", BUF_HASH_);)
+#ifdef STACK_HASH
+            fprintf(logstream, "     stack  hash  = %p\n", STK_HASH_);
+#endif
+#ifdef BUFFER_HASH
+            fprintf(logstream, "     buffer hash  = %p\n", BUF_HASH_);
+#endif 
 
             if(BUF_ && BUF_ != BUF_POISON)
             {
                 if(!PRINT_ELEM)
                 {
-                    fprintf(logstream, "    NO FUNCTION FOR PRINTING (use set_print())\n\n");
+                    fprintf(logstream, "    NO FUNCTION FOR PRINTING (use stack_dump_set_print())\n\n");
                     fflush(logstream);
 
                     return;
@@ -203,14 +210,16 @@ void dump(const Stack* const stk,  ErrType err, DumpLevel level, const char msg[
     fflush(logstream);
 }
 
-void stack_dump_(const Stack* const stk, const char msg[],
+Stack_err stack_dump_(const Stack* const stk, const char msg[],
                  const char func[], const char file[], int line)
 {
     assert(stk && msg && func && file && line);
 
-    ErrType err = stack_verify_(stk);
+    Stack_err err = stack_verify_(stk);
     
-    dump(stk, err, DumpLevel::DETAILED, msg, func, file, line);
+    dump_(stk, err, Stack_dump_lvl::DETAILED, msg, func, file, line);
+
+    return err;
 }
 
 #ifdef BUFFER_HASH

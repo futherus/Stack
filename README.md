@@ -14,4 +14,6 @@ Change **config.h** to configure:
 * `#define HASH`        - comment line to turn off all hashes
 * `#define BUFFER_HASH` - comment line to turn off data buffer hash
 
+Include **Stack.h** to your source file to use stack.
+
 Usage of stack functions is described in documentation

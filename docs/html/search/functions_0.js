@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['enable_5fcanary_0',['enable_canary',['../_stack_8h.html#a24a48d2c18382373b43b827cadd21757',1,'Stack.h']]]
+  ['stack_5fdump_5fset_5fprint_0',['stack_dump_set_print',['../dump_8h.html#af23160357f5346b2229ef5dd15d82a51',1,'dump.h']]]
 ];

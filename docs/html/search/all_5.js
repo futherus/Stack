@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['nullptr_0',['NULLPTR',['../_stack_8h.html#a8a44eabce4dccc3d22171ed3699b769aa3475f53fc319198e49ed63764209f09a',1,'Stack.h']]]
+  ['onlyerr_0',['ONLYERR',['../dump_8h.html#a926c2baf4ac2fc25d7fb62635344f573a0b80d057d981df3e69ecde48af8f6b8d',1,'dump.h']]]
 ];

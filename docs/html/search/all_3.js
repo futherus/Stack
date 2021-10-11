@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['errtype_0',['ErrType',['../_stack_8h.html#a8a44eabce4dccc3d22171ed3699b769a',1,'Stack.h']]]
+  ['logfile_0',['LOGFILE',['../config_8h.html#a5c0d702d6d085e8e7662501ade8ef4c6',1,'config.h']]]
 ];

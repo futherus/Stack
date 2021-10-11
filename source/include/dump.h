@@ -1,18 +1,21 @@
 /** \file 
  *  \brief Header for stack dump
  */
-#ifdef DUMP
-
 #ifndef DUMP_H
 #define DUMP_H
- 
+
+#include "config.h"
+
+#ifdef DUMP
+
 #include <stdio.h>
 
-/** \brief Sets printing elements function for dump
+/** \brief Sets function for printing elements in dump
+ * 
  *  \param stream [in] FILE* pointer
  *  \param elem   [in] Pointer to elem to be printed
  */
-void set_print(void (*print_func)(FILE* stream, const Elem_t* elem));
+void stack_dump_set_print(void (*print_func)(FILE* stream, const Elem_t* elem));
 
 const char BAD_ALLOCATION[]    = "Allocation has failed\n";
 const char BAD_BUFFER[]        = "Buffer is corrupted\n";
@@ -30,20 +33,21 @@ const char NULLPOINTER[]       = "Nullptr was passed\n";
 
 struct Stack;
 
-enum DumpLevel
+/// \brief Sets level of dump  
+enum Stack_dump_lvl
 {
-    ONLYERR = 0,
-    BRIEF = 1,
-    DETAILED = 2
+    ONLYERR  = 0, ///< dumps only in case of error
+    BRIEF    = 1, ///< dumps one-line dump
+    DETAILED = 2, ///< dumps all information about stack condition
 };
 
 
-void dump(const Stack* const stk, ErrType err, DumpLevel level, const char msg[],
-          const char func[], const char file[], int line);
+void dump_(const Stack* const stk, Stack_err err, Stack_dump_lvl level, const char msg[],
+           const char func[], const char file[], int line);
 
-void stack_dump_(const Stack* const stk, const char msg[],
-                 const char func[], const char file[], int line);
-
-#endif // DUMP_H
+Stack_err stack_dump_(const Stack* const stk, const char msg[],
+                      const char func[], const char file[], int line);
 
 #endif // DUMP
+
+#endif // DUMP_H

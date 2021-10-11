@@ -1,30 +1,36 @@
 var indexSectionsWithContent =
 {
-  0: "bcdelnprs",
-  1: "cds",
-  2: "ls",
-  3: "e",
-  4: "bcdnprs",
-  5: "bcds"
+  0: "bcdlnoprs",
+  1: "s",
+  2: "cds",
+  3: "s",
+  4: "ls",
+  5: "s",
+  6: "bcdnoprs",
+  7: "bcds"
 };
 
 var indexSectionNames =
 {
   0: "all",
-  1: "files",
-  2: "variables",
-  3: "enums",
-  4: "enumvalues",
-  5: "defines"
+  1: "classes",
+  2: "files",
+  3: "functions",
+  4: "variables",
+  5: "enums",
+  6: "enumvalues",
+  7: "defines"
 };
 
 var indexSectionLabels =
 {
   0: "All",
-  1: "Files",
-  2: "Variables",
-  3: "Enumerations",
-  4: "Enumerator",
-  5: "Macros"
+  1: "Classes",
+  2: "Files",
+  3: "Functions",
+  4: "Variables",
+  5: "Enumerations",
+  6: "Enumerator",
+  7: "Macros"
 };
 
