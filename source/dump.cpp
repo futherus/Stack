@@ -106,7 +106,7 @@ static void close_logfile_()
 }
 
 void dump_(const Stack* const stk,  Stack_err err, Stack_dump_lvl level, const char msg[],
-          const char func[], const char file[], int line)
+           const char func[], const char file[], int line)
 {
     if(err)
         level = Stack_dump_lvl::DETAILED;
@@ -211,7 +211,7 @@ void dump_(const Stack* const stk,  Stack_err err, Stack_dump_lvl level, const c
 }
 
 Stack_err stack_dump_(const Stack* const stk, const char msg[],
-                 const char func[], const char file[], int line)
+                      const char func[], const char file[], int line)
 {
     assert(stk && msg && func && file && line);
 
