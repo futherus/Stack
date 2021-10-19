@@ -116,6 +116,9 @@ void dump_(const Stack* const stk,  Stack_err err, Stack_dump_lvl level, const c
 
     FILE* logstream = open_logfile_(LOGFILE);
     
+    if(level == Stack_dump_lvl::DETAILED)
+        fprintf(logstream, "\n");
+
     if(msg[0])
     {
         fprintf(logstream, "%s ", msg);
@@ -151,9 +154,9 @@ void dump_(const Stack* const stk,  Stack_err err, Stack_dump_lvl level, const c
                 fprintf(logstream, "    initialized: UNKNOWN\n\n");
 
             fprintf(logstream, "    buffer[%p]\n", BUF_);
-            fprintf(logstream, "    size            = %Iu\n", SZ_);
-            fprintf(logstream, "    capacity        = %Iu\n", CAP_);
-            fprintf(logstream, "    preset capacity = %Iu\n\n", PRESET_CAP_);
+            fprintf(logstream, "    size            = %llu\n", SZ_);
+            fprintf(logstream, "    capacity        = %llu\n", CAP_);
+            fprintf(logstream, "    preset capacity = %llu\n\n", PRESET_CAP_);
 
             fprintf(logstream, "    Guards:\n");
 
@@ -169,10 +172,10 @@ void dump_(const Stack* const stk,  Stack_err err, Stack_dump_lvl level, const c
 #endif
 
 #ifdef STACK_HASH
-            fprintf(logstream, "     stack  hash  = %p\n", STK_HASH_);
+            fprintf(logstream, "     stack  hash  = %llu\n", STK_HASH_);
 #endif
 #ifdef BUFFER_HASH
-            fprintf(logstream, "     buffer hash  = %p\n", BUF_HASH_);
+            fprintf(logstream, "     buffer hash  = %llu\n", BUF_HASH_);
 #endif 
 
             if(BUF_ && BUF_ != BUF_POISON)
@@ -196,7 +199,7 @@ void dump_(const Stack* const stk,  Stack_err err, Stack_dump_lvl level, const c
                     else
                         fprintf(logstream, "     ");
 
-                    fprintf(logstream, "%7.1Iu: ", iter);
+                    fprintf(logstream, "%7.1lld: ", iter);
                     PRINT_ELEM(logstream, &stk->buffer[iter]);
                     fprintf(logstream, "\n");
 
