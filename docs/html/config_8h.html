@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>stack: config.h File Reference</title>
+<title>stack: source/include/config.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -60,6 +60,10 @@ $(function() {
 </iframe>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="dir_8ee1a5e78eaec319fe5d64075812fc61.html">include</a></li>  </ul>
+</div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
@@ -78,29 +82,29 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ad72dbcf6d0153db1b8d8a58001feed83"><td class="memItemLeft" align="right" valign="top"><a id="ad72dbcf6d0153db1b8d8a58001feed83" name="ad72dbcf6d0153db1b8d8a58001feed83"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>DEBUG</b></td></tr>
-<tr class="memdesc:ad72dbcf6d0153db1b8d8a58001feed83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on protection for stack. <br /></td></tr>
-<tr class="separator:ad72dbcf6d0153db1b8d8a58001feed83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bc09c4fadd88692e00a50fa44ed8555"><td class="memItemLeft" align="right" valign="top"><a id="a9bc09c4fadd88692e00a50fa44ed8555" name="a9bc09c4fadd88692e00a50fa44ed8555"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PROTECT</b></td></tr>
+<tr class="memdesc:a9bc09c4fadd88692e00a50fa44ed8555"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on protection for stack. <br /></td></tr>
+<tr class="separator:a9bc09c4fadd88692e00a50fa44ed8555"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f66c64c3c72034ee0c901bd685bb179"><td class="memItemLeft" align="right" valign="top"><a id="a3f66c64c3c72034ee0c901bd685bb179" name="a3f66c64c3c72034ee0c901bd685bb179"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CANARY</b></td></tr>
-<tr class="memdesc:a3f66c64c3c72034ee0c901bd685bb179"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on canary protection (Does not work without DEBUG define) <br /></td></tr>
+<tr class="memdesc:a3f66c64c3c72034ee0c901bd685bb179"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on canary protection (Does not work without PROTECT define) <br /></td></tr>
 <tr class="separator:a3f66c64c3c72034ee0c901bd685bb179"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6809904dd5afab4a63119c00f4b43796"><td class="memItemLeft" align="right" valign="top"><a id="a6809904dd5afab4a63119c00f4b43796" name="a6809904dd5afab4a63119c00f4b43796"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>DUMP</b></td></tr>
-<tr class="memdesc:a6809904dd5afab4a63119c00f4b43796"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on error dumps and user dumps (Does not work without DEBUG define) <br /></td></tr>
+<tr class="memdesc:a6809904dd5afab4a63119c00f4b43796"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on error dumps and user dumps (Does not work without PROTECT define) <br /></td></tr>
 <tr class="separator:a6809904dd5afab4a63119c00f4b43796"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73b8940865f132092459dd3aedd68dec"><td class="memItemLeft" align="right" valign="top"><a id="a73b8940865f132092459dd3aedd68dec" name="a73b8940865f132092459dd3aedd68dec"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>DUMP_ALL</b></td></tr>
-<tr class="memdesc:a73b8940865f132092459dd3aedd68dec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on all dumps (Does not work without DEBUG and DUMP defines) <br /></td></tr>
+<tr class="memdesc:a73b8940865f132092459dd3aedd68dec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on all dumps (Does not work without PROTECT and DUMP defines) <br /></td></tr>
 <tr class="separator:a73b8940865f132092459dd3aedd68dec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad85dddaddc41ae298612fd7a8d529bbe"><td class="memItemLeft" align="right" valign="top"><a id="ad85dddaddc41ae298612fd7a8d529bbe" name="ad85dddaddc41ae298612fd7a8d529bbe"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>STACK_HASH</b></td></tr>
-<tr class="memdesc:ad85dddaddc41ae298612fd7a8d529bbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on stack hash (Does not work without DEBUG define) <br /></td></tr>
+<tr class="memdesc:ad85dddaddc41ae298612fd7a8d529bbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on stack hash (Does not work without PROTECT define) <br /></td></tr>
 <tr class="separator:ad85dddaddc41ae298612fd7a8d529bbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5354e9a07cdd52b0eea68a88a59f74d"><td class="memItemLeft" align="right" valign="top"><a id="aa5354e9a07cdd52b0eea68a88a59f74d" name="aa5354e9a07cdd52b0eea68a88a59f74d"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>BUFFER_HASH</b></td></tr>
-<tr class="memdesc:aa5354e9a07cdd52b0eea68a88a59f74d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on data buffer hash (Does not work without DEBUG define) <br /></td></tr>
+<tr class="memdesc:aa5354e9a07cdd52b0eea68a88a59f74d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on data buffer hash (Does not work without PROTECT define) <br /></td></tr>
 <tr class="separator:aa5354e9a07cdd52b0eea68a88a59f74d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>

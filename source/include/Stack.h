@@ -35,7 +35,7 @@ const size_t STACK_MIN_CAP      = 4 * STACK_CAP_MULTPLR;
 
 const unsigned char BYTE_POISON = 0xBD;
 
-#ifdef DEBUG
+#ifdef PROTECT
 typedef uint64_t guard_t;
 const size_t SIZE_POISON       = 0x1BADBADBADBADBAD;
 const Elem_t* const BUF_POISON = (Elem_t*) 0x000000000BAD;
@@ -56,7 +56,6 @@ struct Stack
 
                 Elem_t* buffer        = nullptr;
 
-                size_t preset_cap     = 0;
                 size_t size           = 0;
                 size_t capacity       = 0;
 
@@ -92,7 +91,7 @@ struct Stack
  *  \param size [in]      Initial size for stack (if 0 stack buffer is not allocated)
  * 
  *  \return Stack_err::NOERR if succeed and error number otherwise
- *  \warning Memory for stack structure should be clean (filled with 0)
+ *  \warning Memory for stack structure should be free
  */
 #define stack_init(stk, size)                                                \
         stack_init_((stk), (size)                                            \
@@ -115,6 +114,8 @@ struct Stack
  *  \param elem [out]      Pointer to variable to write popped element
  * 
  *  \return Stack_err::NOERR if succeed and error number otherwise
+ *  \warning Pop from empty stack returns Stack_err::POP_EMPT_STK (even if PROTECT is not defined)
+ *           but is not shown in dump
  *  \warning Nullptr as second argument results in Stack_err::NULLPTR and error message in dump
  */
 #define stack_pop(stk, elem)                                                 \
@@ -140,22 +141,17 @@ struct Stack
     #define DUMP_ON(arg1, arg2, arg3) 
 #endif
 
-/// \warning Do not use this function. No guarantees are provided.
 Stack_err stack_verify_(const Stack* const stk);
 
-/// \warning Do not use this function. No guarantees are provided.
-Stack_err stack_init_(Stack* stk, size_t preset_cap
+Stack_err stack_init_(Stack* stk, ssize_t preset_cap
               DUMP_ON(const char func[], const char file[], int line));
 
-/// \warning Do not use this function. No guarantees are provided.
 Stack_err stack_push_(Stack* stk, Elem_t elem
               DUMP_ON(const char func[], const char file[], int line));
 
-/// \warning Do not use this function. No guarantees are provided.
 Stack_err stack_pop_ (Stack* stk, Elem_t* elem
               DUMP_ON(const char func[], const char file[], int line));
 
-/// \warning Do not use this function. No guarantees are provided.
 Stack_err stack_dstr_(Stack* stk
               DUMP_ON(const char func[], const char file[], int line));
 

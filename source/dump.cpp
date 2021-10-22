@@ -1,8 +1,7 @@
 #include "include/config.h"
 
-#ifdef DUMP
-
 #include "include/Stack.h"
+#include "include/dump.h"
 #include <string.h>
 #include <assert.h>
 #include <stdio.h>
@@ -13,6 +12,8 @@ void stack_dump_set_print(void (*print_func)(FILE*, const Elem_t*))
 {
     PRINT_ELEM = print_func;
 }
+
+#ifdef DUMP
 
 //WARNING: not checked against overflow
 const size_t ERR_MSG_SZ = 8192;
@@ -54,7 +55,6 @@ static void set_message_(char err_msg[], Stack_err err)
 
 #define BUF_ (stk->buffer)
 #define SZ_ (stk->size)
-#define PRESET_CAP_ (stk->preset_cap)
 #define CAP_ (stk->capacity)
 
 #ifdef STACK_HASH
@@ -106,7 +106,7 @@ static void close_logfile_()
 }
 
 void dump_(const Stack* const stk,  Stack_err err, Stack_dump_lvl level, const char msg[],
-          const char func[], const char file[], int line)
+           const char func[], const char file[], int line)
 {
     if(err)
         level = Stack_dump_lvl::DETAILED;
@@ -116,12 +116,9 @@ void dump_(const Stack* const stk,  Stack_err err, Stack_dump_lvl level, const c
 
     FILE* logstream = open_logfile_(LOGFILE);
     
-    if(level == Stack_dump_lvl::DETAILED)
-        fprintf(logstream, "\n");
-
     if(msg[0])
     {
-        fprintf(logstream, "%s ", msg);
+        fprintf(logstream, "%s", msg);
     }
     
     fprintf(logstream, "Stack [%p] ", stk);
@@ -142,6 +139,7 @@ void dump_(const Stack* const stk,  Stack_err err, Stack_dump_lvl level, const c
 
     if(level == Stack_dump_lvl::DETAILED)
     {
+        fprintf(logstream, "    date:        %s %s\n", __DATE__, __TIME__);
         fprintf(logstream, "    called from: %s at %s (%d)\n", func, file, line);
 
         if(!stk)
@@ -154,28 +152,27 @@ void dump_(const Stack* const stk,  Stack_err err, Stack_dump_lvl level, const c
                 fprintf(logstream, "    initialized: UNKNOWN\n\n");
 
             fprintf(logstream, "    buffer[%p]\n", BUF_);
-            fprintf(logstream, "    size            = %llu\n", SZ_);
-            fprintf(logstream, "    capacity        = %llu\n", CAP_);
-            fprintf(logstream, "    preset capacity = %llu\n\n", PRESET_CAP_);
+            fprintf(logstream, "    size          = %llu\n", SZ_);
+            fprintf(logstream, "    capacity      = %llu\n", CAP_);
 
             fprintf(logstream, "    Guards:\n");
 
 #ifdef CANARY
-            fprintf(logstream, "     stack  begin = %p\n", BEG_STK_CAN_);
-            fprintf(logstream, "     stack  end   = %p\n", END_STK_CAN_);
+            fprintf(logstream, "     stack  begin = %llx\n", BEG_STK_CAN_);
+            fprintf(logstream, "     stack  end   = %llx\n", END_STK_CAN_);
 
             if(BUF_ != BUF_POISON && BUF_)
             {
-                fprintf(logstream, "     buffer begin = %p\n", BEG_BUF_CAN_);
-                fprintf(logstream, "     buffer end   = %p\n", END_BUF_CAN_);
+                fprintf(logstream, "     buffer begin = %llx\n", BEG_BUF_CAN_);
+                fprintf(logstream, "     buffer end   = %llx\n", END_BUF_CAN_);
             }
 #endif
 
 #ifdef STACK_HASH
-            fprintf(logstream, "     stack  hash  = %llu\n", STK_HASH_);
+            fprintf(logstream, "     stack  hash  = %llx\n", STK_HASH_);
 #endif
 #ifdef BUFFER_HASH
-            fprintf(logstream, "     buffer hash  = %llu\n", BUF_HASH_);
+            fprintf(logstream, "     buffer hash  = %llx\n", BUF_HASH_);
 #endif 
 
             if(BUF_ && BUF_ != BUF_POISON)
@@ -199,7 +196,7 @@ void dump_(const Stack* const stk,  Stack_err err, Stack_dump_lvl level, const c
                     else
                         fprintf(logstream, "     ");
 
-                    fprintf(logstream, "%7.1lld: ", iter);
+                    fprintf(logstream, "%7.1llu: ", iter);
                     PRINT_ELEM(logstream, &stk->buffer[iter]);
                     fprintf(logstream, "\n");
 
@@ -214,7 +211,7 @@ void dump_(const Stack* const stk,  Stack_err err, Stack_dump_lvl level, const c
 }
 
 Stack_err stack_dump_(const Stack* const stk, const char msg[],
-                 const char func[], const char file[], int line)
+                      const char func[], const char file[], int line)
 {
     assert(stk && msg && func && file && line);
 
