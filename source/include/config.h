@@ -13,24 +13,24 @@
                 const char LOGFILE[] = "log.txt";
 
                 /// \brief Turn on protection for stack
-                #define DEBUG
+                #define PROTECT
 
-#ifdef DEBUG
-                /// \brief Turn on canary protection (Does not work without DEBUG define)
+#ifdef PROTECT
+                /// \brief Turn on canary protection (Does not work without PROTECT define)
                 #define CANARY
 
-                /// \brief Turn on error dumps and user dumps (Does not work without DEBUG define)
+                /// \brief Turn on error dumps and user dumps (Does not work without PROTECT define)
                 #define DUMP
 
 #ifdef DUMP
-                /// \brief Turn on all dumps (Does not work without DEBUG and DUMP defines)
+                /// \brief Turn on all dumps (Does not work without PROTECT and DUMP defines)
                 #define DUMP_ALL
 #endif
 
-                /// \brief Turn on stack hash (Does not work without DEBUG define)
+                /// \brief Turn on stack hash (Does not work without PROTECT define)
                 #define STACK_HASH
     
-                /// \brief Turn on data buffer hash (Does not work without DEBUG define)
+                /// \brief Turn on data buffer hash (Does not work without PROTECT define)
                 #define BUFFER_HASH
 #endif
 

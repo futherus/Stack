@@ -6,8 +6,6 @@
 
 #include "config.h"
 
-#ifdef DUMP
-
 #include <stdio.h>
 
 /** \brief Sets function for printing elements in dump
@@ -17,6 +15,7 @@
  */
 void stack_dump_set_print(void (*print_func)(FILE* stream, const Elem_t* elem));
 
+#ifdef DUMP
 const char BAD_ALLOCATION[]    = "Allocation has failed\n";
 const char BAD_BUFFER[]        = "Buffer is corrupted\n";
 const char BAD_STACK_HASH[]    = "Bad stack hash (stack is corrupted)\n";
