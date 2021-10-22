@@ -318,12 +318,11 @@ static int stack_check_stkhash_(const Stack* stk)
     return Stack_err::NOERR;
 }
 #endif // STACK_HASH
-    
+
 #ifdef BUFFER_HASH
 static void stack_set_bufhash_(Stack* stk)
 {
     assert(stk);
-
     BUF_HASH_ = qhashfnv1_64(BUF_, CAP_ * sizeof(Elem_t));
 }
 
@@ -373,9 +372,6 @@ static int stack_check_cans_(const Stack* stk)
 #endif // PROTECT ////////////////////////////////////////////////
 
 
-///////////////////////////////////////////////////////////////////////////////////
-// NOT CHECKED FOR NEGATIVE CAPACITY
-///////////////////////////////////////////////////////////////////////////////////
 static size_t stack_init_cap_(size_t capacity)
 {
     if(capacity < STACK_MIN_CAP)
