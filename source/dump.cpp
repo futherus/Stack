@@ -1,22 +1,58 @@
 #include "include/config.h"
-
 #include "include/Stack.h"
 #include "include/dump.h"
+
+#ifndef __USE_MINGW_ANSI_STDIO
+#define __USE_MINGW_ANSI_STDIO 1
+#endif
+#include <stdio.h>
 #include <string.h>
 #include <assert.h>
-#include <stdio.h>
-
-static void (*PRINT_ELEM)(FILE*, const Elem_t*) = nullptr;
-
-void stack_dump_set_print(void (*print_func)(FILE*, const Elem_t*))
-{
-    PRINT_ELEM = print_func;
-}
 
 #ifdef DUMP
 
+static const char HTML_INTRO[] = "<html>"
+                                 "<head>"
+                                    "<title>"
+                                      "Stack log"
+                                    "</title>"
+                                    "<style>"
+                                      ".ok {"
+                                        "color: springgreen;"
+                                        "font-weight: bold;"
+                                      "}"
+                                      ".error{"
+                                        "color: red;"
+                                        "font-weight: bold;"
+                                      "}"
+                                      ".log{"
+                                        "color: #C5D0E6;"
+                                      "}"
+                                      ".title{"
+                                        "color: #E59E1F;"
+                                        "text-align: center;"
+                                        "font-weight: bold;"
+                                      "}"
+                                    "</style>"
+                                  "</head>"
+                                  "<body bgcolor=\"#2F353B\">"
+                                  "<pre class = \"log\">";
+
+static const char HTML_OUTRO[] = "</pre>"
+                                 "</body>"
+                                 "</html>";
+
+static const char HTML_OK[] = "<strong class = \"ok\">"
+                                "ok"
+                              "</strong>";
+
+#define HTML_DUMP_MSG(MSG) fprintf(logstream, "%s%s %s", "<span class = title>", MSG, "</span>")
+
+static FILE* DUMP_STREAM = nullptr;
+static void (*PRINT_ELEM)(FILE*, const Elem_t*) = nullptr;
+
 //WARNING: not checked against overflow
-const size_t ERR_MSG_SZ = 8192;
+const size_t ERR_MSG_SZ = 4096;
 
 static void set_message_(char err_msg[], Stack_err err)
 {
@@ -71,40 +107,6 @@ static void set_message_(char err_msg[], Stack_err err)
     #define END_BUF_CAN_ (*((guard_t*) (BUF_ + CAP_)))
 #endif // CANARY
 
-static void close_logfile_();
-
-static FILE* open_logfile_(const char logfile[])  ///remove bufferization
-{
-    static int first_call = 1;
-    static FILE* logstream = stderr;
-    
-    if(first_call)
-    {
-        logstream = fopen(logfile, "w");
-        first_call = 0;
-
-        if(!logstream)
-        {
-            perror("Can't open log file\n");
-
-            logstream = stderr;
-        }
-
-        atexit(&close_logfile_);
-    }
-
-    return logstream;
-}
-
-static void close_logfile_()
-{
-    FILE* temp_stream = open_logfile_(LOGFILE);
-
-    if(temp_stream != stderr)
-        if(fclose(temp_stream) != 0)
-            perror("Stack log file can't be succesfully closed");
-}
-
 void dump_(const Stack* const stk,  Stack_err err, Stack_dump_lvl level, const char msg[],
            const char func[], const char file[], int line)
 {
@@ -114,11 +116,13 @@ void dump_(const Stack* const stk,  Stack_err err, Stack_dump_lvl level, const c
     if(level == Stack_dump_lvl::ONLYERR)
         return;
 
-    FILE* logstream = open_logfile_(LOGFILE);
-    
+    FILE* logstream = DUMP_STREAM;
+    if(!logstream)
+        return;
+        
     if(msg[0])
     {
-        fprintf(logstream, "%s", msg);
+        HTML_DUMP_MSG(msg);
     }
     
     fprintf(logstream, "Stack [%p] ", stk);
@@ -128,13 +132,11 @@ void dump_(const Stack* const stk,  Stack_err err, Stack_dump_lvl level, const c
         char err_msg[ERR_MSG_SZ];
         set_message_(err_msg, err);
 
-        fprintf(logstream, "ERROR (code %.4x)\n", err);
-        
-        fprintf(logstream, "%s", err_msg);
-    }
+        fprintf(logstream, "<span class = \"error\">ERROR (code %.4d)\n%s</span>", err, err_msg);
+    }        
     else 
     {
-        fprintf(logstream, "ok\n");
+        fprintf(logstream, "%s\n", HTML_OK);
     }
 
     if(level == Stack_dump_lvl::DETAILED)
@@ -210,6 +212,44 @@ void dump_(const Stack* const stk,  Stack_err err, Stack_dump_lvl level, const c
     fflush(logstream);
 }
 
+static void close_dumpfile_()
+{
+    fprintf(DUMP_STREAM, "%s", HTML_OUTRO);
+
+    if(fclose(DUMP_STREAM) != 0)
+        perror("Stack dump file can't be succesfully closed");
+}
+
+void stack_dump_init(FILE* dumpstream, void (*print_func)(FILE*, const Elem_t*))
+{
+    if(print_func)
+        PRINT_ELEM = print_func;
+
+    if(dumpstream)
+    {
+        DUMP_STREAM = dumpstream;
+        return;
+    }
+
+    if(STACK_DUMPFILE[0] != 0)
+    {
+        DUMP_STREAM = fopen(STACK_DUMPFILE, "w");
+
+        if(DUMP_STREAM)
+        {
+            fprintf(DUMP_STREAM, "%s", HTML_INTRO);
+
+            atexit(&close_dumpfile_);
+            return;
+        }
+    }
+
+    perror("Can't open dump file");
+    DUMP_STREAM = stderr;
+
+    return;
+}
+
 Stack_err stack_dump_(const Stack* const stk, const char msg[],
                       const char func[], const char file[], int line)
 {
@@ -240,5 +280,12 @@ Stack_err stack_dump_(const Stack* const stk, const char msg[],
 #undef SZ_
 #undef PRESET_CAP_
 #undef CAP_
+
+#else // DUMP
+
+void stack_dump_init(FILE* dumpstream, void (*print_func)(FILE*, const Elem_t*))
+{
+    void(0);
+}
 
 #endif // DUMP

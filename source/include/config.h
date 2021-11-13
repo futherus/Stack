@@ -7,10 +7,10 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-                typedef size_t Elem_t;
+                typedef double Elem_t;
 
-                /// Path to file for logs
-                const char LOGFILE[] = "log.txt";
+                /// Path to file for logs (can be replaced using stack_dump_set_stream)
+                const char STACK_DUMPFILE[] = "log.html";
 
                 /// \brief Turn on protection for stack
                 #define PROTECT

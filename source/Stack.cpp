@@ -1,9 +1,13 @@
 #include "include/config.h"
 #include "include/Stack.h"
 #include "include/stack_hash.h"
+
+#ifndef __USE_MINGW_ANSI_STDIO
+#define __USE_MINGW_ANSI_STDIO 1
+#endif
+#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <assert.h>
 
 static size_t stack_init_cap_(size_t capacity);
@@ -265,7 +269,7 @@ static int stack_resize_(Stack* stk, size_t new_capacity)
         return 0;
 
 #ifdef CANARY
-    char* temp_buffer = nullptr;
+    void* temp_buffer = nullptr;
     size_t byte_cap = 0;
     size_t byte_new_cap = new_capacity * sizeof(Elem_t) + 2 * sizeof(guard_t);
 
@@ -275,12 +279,12 @@ static int stack_resize_(Stack* stk, size_t new_capacity)
         byte_cap = CAP_ * sizeof(Elem_t) + 2 * sizeof(guard_t);
     }
 
-    temp_buffer = (char*) recalloc(temp_buffer, &byte_cap, byte_new_cap, 1);
+    temp_buffer = recalloc(temp_buffer, &byte_cap, byte_new_cap, 1);
 
     if(temp_buffer == nullptr)
         return -1;
 
-    temp_buffer += sizeof(guard_t);
+    temp_buffer = (void*) ((char*) temp_buffer + sizeof(guard_t));
     byte_cap = (byte_cap - 2 * sizeof(guard_t)) / (sizeof(Elem_t));
     CAP_ = byte_cap;
     BUF_ = (Elem_t*) temp_buffer;
